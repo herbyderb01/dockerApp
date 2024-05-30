@@ -1,0 +1,104 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: rgb(35, 44, 53);
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;                      /* Initial text color matching dark mode */
+  float: right;                     /* Float to the right */
+  font-size: 28px;                  /* Font size */
+  font-weight: bold;                /* Font weight */
+  display: inline-flex;             /* Ensure the element is inline-flex for centering */
+  justify-content: center;          /* Center the content horizontally */
+  align-items: center;              /* Center the content vertically */
+  width: 40px;                      /* Width of the element */
+  height: 40px;                     /* Height of the element */
+  transition: all 0.3s ease;        /* Smooth transition for hover effect */
+  position: relative;               /* Position relative for pseudo-element */
+  border: 2px solid #aaa;          /* White border */
+  border-radius: 30%;               /* Make the element round */
+  background-color: transparent;    /* Initial background color is transparent */
+}
+
+.close::before {
+  content: '';                      /* Empty content for the circle */
+  position: absolute;               /* Absolute positioning */
+  top: 49%;                         /* Adjusted vertical centering */
+  left: 50%;                        /* Center horizontally */
+  transform: translate(-50%, -50%); /* Translate to the center */
+  width: 40px;                      /* Width of the circle */
+  height: 40px;                     /* Height of the circle */
+  border-radius: 30%;               /* Make the element round */
+  background-color: transparent;    /* Transparent background */
+  border: 2px solid #aaa;          /* White border */
+  z-index: -1;                      /* Place behind the text */
+  transition: all 0.3s ease;        /* Smooth transition */
+}
+
+.close:hover {
+  color: #333;                      /* Change text color to dark on hover */
+  filter: drop-shadow(0 0 4em #646cffaa); /* Original hover effect */
+  cursor: pointer;
+}
+
+.close:hover::before {
+  background-color: #aaa;          /* Background color on hover */
+}
