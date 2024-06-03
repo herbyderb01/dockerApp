@@ -1,13 +1,13 @@
 services:
-  contactsApp:
+  contacts_app:
     build: 
       dockerfile: ./Dockerfile
       context: .
-    command: flask run --host=0.0.0.0 --port=5125
+    # command: flask run --host=0.0.0.0 --port=${PORT}
     ports:
-      - "5125:5125"
+      - "${PORT}:${PORT}"
     env_file:
       - .env
     volumes:
-      - .:/usr/app/contactsApp
-      - /usr/app/contactsApp/instance
+      - .:/usr/app/contacts_app # volume to track app changes
+      - /usr/app/contacts_app/instance # volume to keep current database
