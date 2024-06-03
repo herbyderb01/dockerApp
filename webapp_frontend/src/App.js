@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   const fetchContacts = async () => {
-    const response = await fetch("http://127.0.0.1:5125");
+    const response = await fetch("http://127.0.0.1:5000/contacts");
     const data = await response.json();
     setContacts(data.contacts);
   };
@@ -41,7 +41,7 @@ function App() {
   return (
     <>
       <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} />
-      <button onClick={openCreateModal}>Create New Contact</button>
+      <button onClick={openCreateModal}>Createss New Contact</button>
       {isModalOpen && <div className="modal">
         <div className="modal-content">
           <span className="close" onClick={closeModal}>&times;</span>

@@ -1,13 +1,34 @@
+# version: "3.9"
 services:
-  contacts_app:
+  python_backend:
     build: 
-      dockerfile: ./Dockerfile
-      context: .
-    # command: flask run --host=0.0.0.0 --port=${PORT}
+      context: ./python_backend
+      dockerfile: Dockerfile
     ports:
-      - "${PORT}:${PORT}"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     env_file:
       - .env
     volumes:
-      - .:/usr/app/contacts_app # volume to track app changes
-      - /usr/app/contacts_app/instance # volume to keep current database
+      - .:${WORKDIR_FRONTEND} # volume to track app changes
+      - ${DB_DIR} # volume to keep current database
+    environment:
+      # FLASK_EVN: development
+      FLASK_EVN: production
+      PORT: ${BACKEND_PORT}
+
+  webapp_frontend:
+    build: 
+      context: ./webapp_frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${WEBAPP_PORT}:${WEBAPP_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - .:${WORKDIR_FRONTEND} # volume to track app changes
+    depends_on:
+      - python_backend
+    environment:
+      # NODE_ENV: development
+      NODE_ENV: production
+      PORT: ${WEBAPP_PORT}
