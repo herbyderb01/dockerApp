@@ -14,3 +14,9 @@ class Contact(db.Model):
             "lastName": self.last_name,
             "email": self.email,
         }
+
+class Img(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    mimetype = db.Column(db.Text, nullable=False)

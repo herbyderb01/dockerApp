@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from config import app, db
-from models import Contact
+from models import Contact, Img
+from werkzeug.utils import secure_filename
 
 
 @app.route("/contacts", methods=["GET"])
@@ -60,6 +61,24 @@ def delete_contact(user_id):
     db.session.commit()
 
     return jsonify({"message": "User deleted!"}), 200
+
+
+@app.route('/upload', method=['POST'])
+def upload():
+    pic = request.files['pic']
+
+    if not pic:
+        return 'No pic uploaded', 400
+    
+    filename = secure_filename(pic.filename)
+    mimetype = pic.mimetype
+    
+    img = Img(img=pic.read(), mimetype=mimetype, name=filename)
+    db.session.add(img)
+    db.session.commit()
+
+    return 'Img has been uploaded', 200
+
 
 
 if __name__ == "__main__":
