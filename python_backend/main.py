@@ -1,79 +1,85 @@
 from flask import request, jsonify
 from config import app, db
-from models import Disk, Img
+from models import Disc, Img
 from werkzeug.utils import secure_filename
 
 
-@app.route("/disks", methods=["GET"])
-def get_disks():
-    disks = Disk.query.all()
-    json_disks = list(map(lambda x: x.to_json(), disks))
-    return jsonify({"disks": json_disks})
+@app.route("/discs", methods=["GET"])
+def get_discs():
+    discs = disc.query.all()
+    json_discs = list(map(lambda x: x.to_json(), discs))
+    return jsonify({"discs": json_discs})
 
 
-@app.route("/create_disk", methods=["POST"])
-def create_disk():
-    disk_brand = request.json.get("diskBrand")
-    disk_name = request.json.get("diskName")
-    flight_speed = request.json.get("diskFlightSpeed")
-    flight_glide = request.json.get("diskFlightGlide")
-    flight_turn = request.json.get("diskFlightTurn")
-    flight_fade = request.json.get("diskFlightFade")
-    disk_plastic = request.json.get("diskPlastic")
-    disk_weight = request.json.get("diskWeight")
-    disk_notes = request.json.get("diskNotes")
+@app.route("/create_disc", methods=["POST"])
+def create_disc():
+    disc_brand = request.json.get("discBrand")
+    disc_name = request.json.get("discName")
+    flight_speed = request.json.get("discFlightSpeed")
+    flight_glide = request.json.get("discFlightGlide")
+    flight_turn = request.json.get("discFlightTurn")
+    flight_fade = request.json.get("discFlightFade")
+    disc_plastic = request.json.get("discPlastic")
+    disc_weight = request.json.get("discWeight")
+    disc_notes = request.json.get("discNotes")
 
-    if not disk_name:
+    if not disc_name:
         return (
-            jsonify({"message": "You must include a disk name."}),
+            jsonify({"message": "You must include a disc name."}),
             400,
         )
 
-    new_disk = Disk(
-        disk_brand=disk_brand,
-        disk_name=disk_name,
+    new_disc = Disc(
+        disc_brand=disc_brand,
+        disc_name=disc_name,
         flight_speed=flight_speed,
         flight_glide=flight_glide,
         flight_turn=flight_turn,
         flight_fade=flight_fade,
-        disk_plastic=disk_plastic,
-        disk_weight=disk_weight,
-        disk_notes=disk_notes
+        disc_plastic=disc_plastic,
+        disc_weight=disc_weight,
+        disc_notes=disc_notes
         )
     try:
-        db.session.add(new_disk)
+        db.session.add(new_disc)
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
-    return jsonify({"message": "Disk created!"}), 201
+    return jsonify({"message": "Disc created!"}), 201
 
 
-@app.route("/update_disk/<int:user_id>", methods=["PATCH"])
-def update_disk(user_id):
-    disk = disk.query.get(user_id)
+@app.route("/update_disc/<int:disc_id>", methods=["PATCH"])
+def update_disc(disc_id):
+    disc = disc.query.get(disc_id)
 
-    if not disk:
+    if not disc:
         return jsonify({"message": "User not found"}), 404
 
     data = request.json
-    contact.first_name = data.get("firstName", contact.first_name)
-    contact.last_name = data.get("lastName", contact.last_name)
-    contact.email = data.get("email", contact.email)
+    disc.disc_brand = data.get("discBrand", disc.disc_brand)
+    disc.disc_name = data.get("discName", disc.disc_name)
+    disc.flight_speed = data.get("discFlightSpeed", disc.flight_speed)
+    disc.flight_glide = data.get("discFlightGlide", disc.flight_glide)
+    disc.flight_turn = data.get("discFlightTurn", disc.flight_turn)
+    disc.flight_fade = data.get("discFlightFade", disc.flight_fade)
+    disc.disc_plastic = data.get("discPlastic", disc.disc_plastic)
+    disc.disc_weight = data.get("discWeight", disc.disc_weight)
+    disc.disc_notes = data.get("discNotes", disc.disc_notes)
 
     db.session.commit()
 
-    return jsonify({"message": "Usr updated."}), 200
+    return jsonify({"message": "Disc updated."}), 200
 
 
-@app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
-def delete_contact(user_id):
-    contact = Contact.query.get(user_id)
+@app.route("/delete_disc/<int:disc_id>", methods=["DELETE"])
+def delete_disc(disc_id):
+    disc = Disc.query.get(disc_id)
 
-    if not contact:
+    if not disc:
         return jsonify({"message": "User not found"}), 404
 
-    db.session.delete(contact)
+    db.session.delete(disc)
     db.session.commit()
 
     return jsonify({"message": "User deleted!"}), 200

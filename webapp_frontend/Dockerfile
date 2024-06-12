@@ -1,7 +1,7 @@
 # Use an official node image as our base image
 FROM node:current-slim
 
-# Set the working directory to /contacts_app
+# Set the working directory to /discs_app
 WORKDIR ${WORKDIR_FRONTEND}
 
 # Make back end of this container available to the world outside this container
@@ -23,7 +23,7 @@ RUN npm install
 # COPY ./webapp_frontend .
 COPY . .
 
-# RUN chown -R node /usr/app/contacts_app
+# RUN chown -R node /usr/app/discs_app
 # USER node
 
 CMD ["npm", "start"]

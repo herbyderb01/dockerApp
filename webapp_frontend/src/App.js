@@ -1,51 +1,51 @@
 import { useState, useEffect } from "react";
-import ContactList from "./ContactList";
+import DiscList from "./DiscList";
 import "./App.css";
-import ContactForm from "./ContactForm";
+import DiscForm from "./DiscForm";
 
 function App() {
-  const [contacts, setContacts] = useState([]);
+  const [discs, setDiscs] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentContact, setCurrentContact] = useState({})
+  const [currentDisc, setCurrentDisc] = useState({})
 
   useEffect(() => {
-    fetchContacts()
+    fetchDiscs()
   }, []);
 
-  const fetchContacts = async () => {
-    const response = await fetch("http://127.0.0.1:5000/contacts");
+  const fetchDiscs = async () => {
+    const response = await fetch("http://127.0.0.1:5000/discs");
     const data = await response.json();
-    setContacts(data.contacts);
+    setDiscs(data.discs);
   };
 
   const closeModal = () => {
     setIsModalOpen(false)
-    setCurrentContact({})
+    setCurrentDisc({})
   }
 
   const openCreateModal = () => {
     if (!isModalOpen) setIsModalOpen(true)
   }
 
-  const openEditModal = (contact) => {
+  const openEditModal = (disc) => {
     if (isModalOpen) return
-    setCurrentContact(contact)
+    setCurrentDisc(disc)
     setIsModalOpen(true)
   }
 
   const onUpdate = () => {
     closeModal()
-    fetchContacts()
+    fetchDiscs()
   }
 
   return (
     <>
-      <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} />
-      <button onClick={openCreateModal}>Createss New Contact</button>
+      <DiscList discs={discs} updateDisc={openEditModal} updateCallback={onUpdate} />
+      <button onClick={openCreateModal}>Create New Disc</button>
       {isModalOpen && <div className="modal">
         <div className="modal-content">
           <span className="close" onClick={closeModal}>&times;</span>
-          <ContactForm existingContact={currentContact} updateCallback={onUpdate} />
+          <DiscForm existingDisc={currentDisc} updateCallback={onUpdate} />
         </div>
       </div>
       }
