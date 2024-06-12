@@ -1,7 +1,7 @@
 # Use an official node image as our base image
 FROM python:3.8-slim
 
-# Set the working directory to /contacts_app
+# Set the working directory to /disks_app
 WORKDIR ${WORKDIR_BACKEND}
 
 # Make back end of this container available to the world outside this container

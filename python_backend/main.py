@@ -1,43 +1,59 @@
 from flask import request, jsonify
 from config import app, db
-from models import Contact, Img
+from models import Disk, Img
 from werkzeug.utils import secure_filename
 
 
-@app.route("/contacts", methods=["GET"])
-def get_contacts():
-    contacts = Contact.query.all()
-    json_contacts = list(map(lambda x: x.to_json(), contacts))
-    return jsonify({"contacts": json_contacts})
+@app.route("/disks", methods=["GET"])
+def get_disks():
+    disks = Disk.query.all()
+    json_disks = list(map(lambda x: x.to_json(), disks))
+    return jsonify({"disks": json_disks})
 
 
-@app.route("/create_contact", methods=["POST"])
-def create_contact():
-    first_name = request.json.get("firstName")
-    last_name = request.json.get("lastName")
-    email = request.json.get("email")
+@app.route("/create_disk", methods=["POST"])
+def create_disk():
+    disk_brand = request.json.get("diskBrand")
+    disk_name = request.json.get("diskName")
+    flight_speed = request.json.get("diskFlightSpeed")
+    flight_glide = request.json.get("diskFlightGlide")
+    flight_turn = request.json.get("diskFlightTurn")
+    flight_fade = request.json.get("diskFlightFade")
+    disk_plastic = request.json.get("diskPlastic")
+    disk_weight = request.json.get("diskWeight")
+    disk_notes = request.json.get("diskNotes")
 
-    if not first_name or not last_name or not email:
+    if not disk_name:
         return (
-            jsonify({"message": "You must include a first name, last name and email"}),
+            jsonify({"message": "You must include a disk name."}),
             400,
         )
 
-    new_contact = Contact(first_name=first_name, last_name=last_name, email=email)
+    new_disk = Disk(
+        disk_brand=disk_brand,
+        disk_name=disk_name,
+        flight_speed=flight_speed,
+        flight_glide=flight_glide,
+        flight_turn=flight_turn,
+        flight_fade=flight_fade,
+        disk_plastic=disk_plastic,
+        disk_weight=disk_weight,
+        disk_notes=disk_notes
+        )
     try:
-        db.session.add(new_contact)
+        db.session.add(new_disk)
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
-    return jsonify({"message": "User created!"}), 201
+    return jsonify({"message": "Disk created!"}), 201
 
 
-@app.route("/update_contact/<int:user_id>", methods=["PATCH"])
-def update_contact(user_id):
-    contact = Contact.query.get(user_id)
+@app.route("/update_disk/<int:user_id>", methods=["PATCH"])
+def update_disk(user_id):
+    disk = disk.query.get(user_id)
 
-    if not contact:
+    if not disk:
         return jsonify({"message": "User not found"}), 404
 
     data = request.json
@@ -63,21 +79,21 @@ def delete_contact(user_id):
     return jsonify({"message": "User deleted!"}), 200
 
 
-@app.route('/upload', method=['POST'])
-def upload():
-    pic = request.files['pic']
+# @app.route('/upload', method=['POST'])
+# def upload():
+#     pic = request.files['pic']
 
-    if not pic:
-        return 'No pic uploaded', 400
+#     if not pic:
+#         return 'No pic uploaded', 400
     
-    filename = secure_filename(pic.filename)
-    mimetype = pic.mimetype
+#     filename = secure_filename(pic.filename)
+#     mimetype = pic.mimetype
     
-    img = Img(img=pic.read(), mimetype=mimetype, name=filename)
-    db.session.add(img)
-    db.session.commit()
+#     img = Img(img=pic.read(), mimetype=mimetype, name=filename)
+#     db.session.add(img)
+#     db.session.commit()
 
-    return 'Img has been uploaded', 200
+#     return 'Img has been uploaded', 200
 
 
 
